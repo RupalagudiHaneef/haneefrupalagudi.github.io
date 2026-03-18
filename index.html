@@ -16,18 +16,44 @@
     --text: #f0f0f0;
     --muted: #888;
   }
- 
+
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
- 
+
   html { scroll-behavior: smooth; }
- 
+
   body {
     font-family: 'DM Sans', sans-serif;
     background: var(--bg);
     color: var(--text);
     overflow-x: hidden;
+    cursor: none;
   }
- 
+
+  /* Custom cursor */
+  .cursor {
+    width: 14px; height: 14px;
+    background: var(--lime);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease, background 0.3s;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    width: 40px; height: 40px;
+    border: 1.5px solid var(--lime);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.08s ease;
+    opacity: 0.5;
+  }
+
   /* Noise overlay */
   body::before {
     content: '';
@@ -38,7 +64,7 @@
     z-index: 1000;
     opacity: 0.4;
   }
- 
+
   /* NAV */
   nav {
     position: fixed;
@@ -70,7 +96,7 @@
     transition: color 0.2s;
   }
   .nav-links a:hover { color: var(--lime); }
- 
+
   /* HERO */
   .hero {
     min-height: 100vh;
@@ -80,7 +106,7 @@
     position: relative;
     overflow: hidden;
   }
- 
+
   .hero-bg {
     position: absolute;
     inset: 0;
@@ -89,9 +115,9 @@
       radial-gradient(ellipse 40% 40% at 20% 80%, rgba(79,209,255,0.1) 0%, transparent 60%),
       radial-gradient(ellipse 50% 50% at 50% 50%, rgba(200,241,53,0.04) 0%, transparent 70%);
   }
- 
+
   .hero-content { position: relative; z-index: 2; max-width: 900px; }
- 
+
   .hero-tag {
     display: inline-flex;
     align-items: center;
@@ -115,12 +141,12 @@
     border-radius: 50%;
     animation: pulse 1.5s infinite;
   }
- 
+
   @keyframes pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.4; transform: scale(0.8); }
   }
- 
+
   .hero h1 {
     font-family: 'Syne', sans-serif;
     font-size: clamp(3.5rem, 8vw, 7rem);
@@ -130,7 +156,7 @@
     margin-bottom: 1.5rem;
     animation: fadeUp 0.6s 0.1s ease both;
   }
- 
+
   .hero h1 .line1 { display: block; color: var(--text); }
   .hero h1 .line2 {
     display: block;
@@ -139,7 +165,7 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
- 
+
   .hero-desc {
     font-size: 1.1rem;
     color: var(--muted);
@@ -149,14 +175,14 @@
     animation: fadeUp 0.6s 0.2s ease both;
     font-weight: 300;
   }
- 
+
   .hero-cta {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
     animation: fadeUp 0.6s 0.3s ease both;
   }
- 
+
   .btn {
     display: inline-flex;
     align-items: center;
@@ -180,7 +206,7 @@
     color: var(--text);
   }
   .btn-outline:hover { border-color: var(--sky); color: var(--sky); transform: translateY(-2px); }
- 
+
   .hero-scroll {
     position: absolute;
     bottom: 3rem;
@@ -207,7 +233,7 @@
     51% { transform: scaleY(1); transform-origin: bottom; }
     100% { transform: scaleY(0); transform-origin: bottom; }
   }
- 
+
   /* Floating blobs */
   .blob {
     position: absolute;
@@ -219,20 +245,20 @@
   .blob1 { width: 300px; height: 300px; background: rgba(162,89,255,0.12); top: 10%; right: 5%; animation-delay: 0s; }
   .blob2 { width: 200px; height: 200px; background: rgba(79,209,255,0.1); bottom: 20%; right: 20%; animation-delay: 3s; }
   .blob3 { width: 150px; height: 150px; background: rgba(200,241,53,0.08); top: 50%; left: 60%; animation-delay: 5s; }
- 
+
   @keyframes blobFloat {
     0%, 100% { transform: translateY(0) scale(1); }
     50% { transform: translateY(-30px) scale(1.05); }
   }
- 
+
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
     to { opacity: 1; transform: translateY(0); }
   }
- 
+
   /* SECTIONS */
   section { padding: 6rem 4rem; }
- 
+
   .section-label {
     display: flex;
     align-items: center;
@@ -253,7 +279,7 @@
     height: 1px;
     background: rgba(255,255,255,0.07);
   }
- 
+
   .section-title {
     font-family: 'Syne', sans-serif;
     font-size: clamp(2rem, 4vw, 3.5rem);
@@ -262,17 +288,17 @@
     line-height: 1.1;
     margin-bottom: 1rem;
   }
- 
+
   /* SKILLS */
   #skills { background: var(--card); }
- 
+
   .skills-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1.5rem;
     margin-top: 3rem;
   }
- 
+
   .skill-card {
     background: var(--bg);
     border: 1px solid rgba(255,255,255,0.06);
@@ -296,7 +322,7 @@
   .skill-card:nth-child(3)::before { background: radial-gradient(ellipse at top left, rgba(162,89,255,0.06), transparent 60%); }
   .skill-card:nth-child(4)::before { background: radial-gradient(ellipse at top left, rgba(255,92,92,0.06), transparent 60%); }
   .skill-card:hover::before { opacity: 1; }
- 
+
   .skill-icon {
     width: 44px; height: 44px;
     border-radius: 12px;
@@ -308,14 +334,14 @@
   .skill-card:nth-child(2) .skill-icon { background: rgba(79,209,255,0.12); }
   .skill-card:nth-child(3) .skill-icon { background: rgba(162,89,255,0.12); }
   .skill-card:nth-child(4) .skill-icon { background: rgba(255,92,92,0.12); }
- 
+
   .skill-card h3 {
     font-family: 'Syne', sans-serif;
     font-size: 1rem;
     font-weight: 700;
     margin-bottom: 0.8rem;
   }
- 
+
   .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .tag {
     font-size: 0.75rem;
@@ -325,10 +351,10 @@
     color: var(--muted);
     border: 1px solid rgba(255,255,255,0.07);
   }
- 
+
   /* PROJECT */
   #project { background: var(--bg); }
- 
+
   .project-card {
     background: var(--card);
     border: 1px solid rgba(255,255,255,0.06);
@@ -341,7 +367,7 @@
     margin-top: 3rem;
   }
   .project-card:hover { transform: translateY(-4px); }
- 
+
   .project-visual {
     background: linear-gradient(135deg, rgba(162,89,255,0.2), rgba(79,209,255,0.2));
     display: flex;
@@ -368,7 +394,7 @@
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-12px); }
   }
- 
+
   .project-info { padding: 3rem; }
   .project-badge {
     display: inline-block;
@@ -415,7 +441,7 @@
     color: var(--lime);
   }
   .project-stat .label { font-size: 0.8rem; color: var(--muted); }
- 
+
   .tech-stack { display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .tech-tag {
     font-size: 0.75rem;
@@ -426,10 +452,10 @@
   .tech-tag.purple { background: rgba(162,89,255,0.15); color: #c4a0ff; border: 1px solid rgba(162,89,255,0.2); }
   .tech-tag.blue { background: rgba(79,209,255,0.15); color: #7de8ff; border: 1px solid rgba(79,209,255,0.2); }
   .tech-tag.green { background: rgba(200,241,53,0.1); color: var(--lime); border: 1px solid rgba(200,241,53,0.2); }
- 
+
   /* EXPERIENCE */
   #experience { background: var(--card); }
- 
+
   .exp-card {
     background: var(--bg);
     border: 1px solid rgba(255,255,255,0.06);
@@ -488,10 +514,10 @@
     color: var(--lime);
     font-size: 0.8rem;
   }
- 
+
   /* RESEARCH */
   #research { background: var(--bg); }
- 
+
   .research-card {
     background: linear-gradient(135deg, rgba(162,89,255,0.08), rgba(79,209,255,0.08));
     border: 1px solid rgba(162,89,255,0.2);
@@ -545,7 +571,7 @@
     transition: all 0.2s;
   }
   .research-link:hover { color: var(--lime); border-color: var(--lime); }
- 
+
   .research-stat-big {
     text-align: center;
     flex-shrink: 0;
@@ -565,7 +591,7 @@
     color: var(--muted);
     margin-top: 0.3rem;
   }
- 
+
   /* CONTACT */
   #contact {
     background: var(--card);
@@ -607,7 +633,7 @@
     transition: all 0.25s;
   }
   .contact-item:hover { border-color: var(--lime); color: var(--lime); transform: translateY(-2px); }
- 
+
   /* FOOTER */
   footer {
     text-align: center;
@@ -616,7 +642,7 @@
     font-size: 0.8rem;
     border-top: 1px solid rgba(255,255,255,0.05);
   }
- 
+
   /* Responsive */
   @media (max-width: 768px) {
     nav { padding: 1.2rem 1.5rem; }
@@ -630,7 +656,10 @@
 </style>
 </head>
 <body>
- 
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
 <nav>
   <div class="nav-logo">HR.</div>
   <ul class="nav-links">
@@ -641,13 +670,13 @@
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
- 
+
 <section class="hero" id="home">
   <div class="hero-bg"></div>
   <div class="blob blob1"></div>
   <div class="blob blob2"></div>
   <div class="blob blob3"></div>
- 
+
   <div class="hero-content">
     <div class="hero-tag">Available for work · Bengaluru, India</div>
     <h1>
@@ -660,13 +689,13 @@
       <a href="#contact" class="btn btn-outline">Get In Touch</a>
     </div>
   </div>
- 
+
   <div class="hero-scroll">
     <div class="scroll-line"></div>
     <span>Scroll</span>
   </div>
 </section>
- 
+
 <section id="skills">
   <div class="section-label"><span>What I work with</span></div>
   <h2 class="section-title">Technical Skills</h2>
@@ -717,7 +746,7 @@
     </div>
   </div>
 </section>
- 
+
 <section id="project">
   <div class="section-label"><span>Featured Work</span></div>
   <h2 class="section-title">Project</h2>
@@ -734,7 +763,6 @@
         <span class="num">92%</span>
         <span class="label">Accuracy (Stacking & Voting Classifiers)</span>
       </div>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSeJWZhrDBlww_avlLnu0JF9wReOlz3jjWx02Jk0Z-l89-pzOQ/viewform?usp=dialog" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(200,241,53,0.1);border:1px solid rgba(200,241,53,0.3);color:#c8f135;font-size:0.8rem;font-weight:600;padding:0.5rem 1.2rem;border-radius:100px;text-decoration:none;margin-bottom:1.2rem;transition:all 0.2s;" onmouseover="this.style.background='rgba(200,241,53,0.2)'" onmouseout="this.style.background='rgba(200,241,53,0.1)'">▶ View Project (Verify First)</a>
       <div class="tech-stack">
         <span class="tech-tag purple">Random Forest</span>
         <span class="tech-tag blue">SVC</span>
@@ -746,104 +774,6 @@
         <span class="tech-tag blue">Python</span>
       </div>
     </div>
-  </div>
- 
-  <!-- Project Walkthrough -->
-  <div style="margin-top:2.5rem; background:var(--card); border:1px solid rgba(255,255,255,0.06); border-radius:24px; padding:2.5rem;">
-    <h3 style="font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; letter-spacing:-0.5px; margin-bottom:0.3rem;">🔍 How This Project Works</h3>
-    <p style="color:var(--muted); font-size:0.85rem; margin-bottom:2rem;">A complete explanation — from raw data to final prediction.</p>
- 
-    <!-- Goal -->
-    <div style="background:rgba(200,241,53,0.06); border:1px solid rgba(200,241,53,0.2); border-radius:16px; padding:1.5rem; margin-bottom:1.5rem;">
-      <div style="font-weight:700; font-size:1rem; color:#c8f135; margin-bottom:0.5rem;">🎯 Goal</div>
-      <div style="color:#ccc; font-size:0.9rem; line-height:1.7;">Predict what sleep disorder a person has — <b style="color:#f0f0f0;">Insomnia</b>, <b style="color:#f0f0f0;">Sleep Apnea</b>, or <b style="color:#f0f0f0;">None</b> — based on their health and lifestyle data, without needing expensive lab tests.</div>
-    </div>
- 
-    <!-- Input Data -->
-    <div style="background:rgba(79,209,255,0.06); border:1px solid rgba(79,209,255,0.2); border-radius:16px; padding:1.5rem; margin-bottom:1.5rem;">
-      <div style="font-weight:700; font-size:1rem; color:#4fd1ff; margin-bottom:0.8rem;">📦 Input Data</div>
-      <div style="color:#ccc; font-size:0.85rem; margin-bottom:0.8rem;">The model takes these real-world inputs about a person:</div>
-      <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
-        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Age</span>
-        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Gender</span>
-        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Occupation</span>
-        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Sleep Duration</span>
-        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Sleep Quality</span>
-        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Physical Activity</span>
-        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Stress Level</span>
-        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">BMI</span>
-        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Blood Pressure</span>
-        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Heart Rate</span>
-        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Daily Steps</span>
-      </div>
-    </div>
- 
-    <!-- Steps -->
-    <div style="display:flex; flex-direction:column; gap:1rem;">
- 
-      <div style="display:flex; gap:1rem; align-items:flex-start; padding:1.2rem; background:rgba(255,255,255,0.03); border-radius:14px;">
-        <div style="min-width:32px; height:32px; background:rgba(200,241,53,0.15); border:1px solid rgba(200,241,53,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:0.75rem; color:#c8f135;">1</div>
-        <div>
-          <div style="font-weight:600; font-size:0.95rem; margin-bottom:0.4rem;">Clean the Data</div>
-          <div style="color:var(--muted); font-size:0.85rem; line-height:1.7;">Raw data has text values like <b style="color:#f0f0f0;">"Male"</b> or <b style="color:#f0f0f0;">"Engineer"</b> — the model can't read text, so <b style="color:#f0f0f0;">Label Encoding</b> converts everything into numbers. Blood Pressure like <b style="color:#f0f0f0;">"120/80"</b> is split into two separate columns: Systolic (120) and Diastolic (80).</div>
-        </div>
-      </div>
- 
-      <div style="display:flex; gap:1rem; align-items:flex-start; padding:1.2rem; background:rgba(255,255,255,0.03); border-radius:14px;">
-        <div style="min-width:32px; height:32px; background:rgba(79,209,255,0.15); border:1px solid rgba(79,209,255,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:0.75rem; color:#4fd1ff;">2</div>
-        <div>
-          <div style="font-weight:600; font-size:0.95rem; margin-bottom:0.4rem;">Scale the Data</div>
-          <div style="color:var(--muted); font-size:0.85rem; line-height:1.7;">Features like Age (25) and Heart Rate (75) are on different scales. Without scaling, the model thinks Heart Rate is 3x more important just because the number is bigger. <b style="color:#f0f0f0;">StandardScaler</b> brings all features to the same range so every feature is treated fairly.</div>
-        </div>
-      </div>
- 
-      <div style="display:flex; gap:1rem; align-items:flex-start; padding:1.2rem; background:rgba(255,255,255,0.03); border-radius:14px;">
-        <div style="min-width:32px; height:32px; background:rgba(162,89,255,0.15); border:1px solid rgba(162,89,255,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:0.75rem; color:#a259ff;">3</div>
-        <div>
-          <div style="font-weight:600; font-size:0.95rem; margin-bottom:0.4rem;">Three Models Look at the Data</div>
-          <div style="color:var(--muted); font-size:0.85rem; line-height:1.7;">
-            <b style="color:#f0f0f0;">Random Forest</b> — builds 100 decision trees and takes a majority vote. Like asking 100 doctors and going with the most common answer.<br><br>
-            <b style="color:#f0f0f0;">SVC (Support Vector Classifier)</b> — draws the best possible boundary line that separates Insomnia, Sleep Apnea, and None from each other.<br><br>
-            <b style="color:#f0f0f0;">XGBoost</b> — starts weak, then keeps learning from its own mistakes round by round until it gets strong. Like a student who reviews wrong answers and improves each time.
-          </div>
-        </div>
-      </div>
- 
-      <div style="display:flex; gap:1rem; align-items:flex-start; padding:1.2rem; background:rgba(255,255,255,0.03); border-radius:14px;">
-        <div style="min-width:32px; height:32px; background:rgba(255,92,92,0.15); border:1px solid rgba(255,92,92,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:0.75rem; color:#ff5c5c;">4</div>
-        <div>
-          <div style="font-weight:600; font-size:0.95rem; margin-bottom:0.4rem;">Ensemble Combines Them</div>
-          <div style="color:var(--muted); font-size:0.85rem; line-height:1.7;">
-            <b style="color:#f0f0f0;">Voting Classifier</b> — all 3 models vote on the prediction. Each gives a probability score and the class with the highest combined probability wins. Think of it as 3 experts reaching a consensus.<br><br>
-            <b style="color:#f0f0f0;">Stacking Classifier</b> — all 3 models make predictions, then a 4th model (meta-model) learns from those predictions and makes the final call. Like a senior doctor reviewing 3 junior doctors' reports.
-          </div>
-        </div>
-      </div>
- 
-      <div style="display:flex; gap:1rem; align-items:flex-start; padding:1.2rem; background:rgba(255,255,255,0.03); border-radius:14px;">
-        <div style="min-width:32px; height:32px; background:rgba(200,241,53,0.15); border:1px solid rgba(200,241,53,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:0.75rem; color:#c8f135;">5</div>
-        <div>
-          <div style="font-weight:600; font-size:0.95rem; margin-bottom:0.4rem;">Output — Final Prediction</div>
-          <div style="color:var(--muted); font-size:0.85rem; line-height:1.7; margin-bottom:0.8rem;">The model outputs one of three labels:</div>
-          <div style="display:flex; gap:0.7rem; flex-wrap:wrap;">
-            <span style="background:rgba(200,241,53,0.1); border:1px solid rgba(200,241,53,0.3); color:#c8f135; font-size:0.8rem; font-weight:600; padding:0.4rem 1rem; border-radius:100px;">✅ None</span>
-            <span style="background:rgba(255,92,92,0.1); border:1px solid rgba(255,92,92,0.3); color:#ff8080; font-size:0.8rem; font-weight:600; padding:0.4rem 1rem; border-radius:100px;">😴 Insomnia</span>
-            <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.3); color:#4fd1ff; font-size:0.8rem; font-weight:600; padding:0.4rem 1rem; border-radius:100px;">😮‍💨 Sleep Apnea</span>
-          </div>
-        </div>
-      </div>
- 
-    </div>
- 
-    <!-- Result -->
-    <div style="background:rgba(162,89,255,0.06); border:1px solid rgba(162,89,255,0.2); border-radius:16px; padding:1.5rem; margin-top:1.5rem; display:flex; align-items:center; gap:2rem; flex-wrap:wrap;">
-      <div>
-        <div style="font-family:'Syne',sans-serif; font-size:3rem; font-weight:800; background:linear-gradient(90deg,#a259ff,#4fd1ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; line-height:1;">92%</div>
-        <div style="color:var(--muted); font-size:0.8rem; margin-top:0.2rem;">Final Accuracy</div>
-      </div>
-      <div style="color:#ccc; font-size:0.875rem; line-height:1.7; max-width:480px;">Both Voting and Stacking Classifiers achieved <b style="color:#f0f0f0;">92% accuracy</b> — meaning out of 100 people, the model correctly classifies 92 of them. Validated using <b style="color:#f0f0f0;">5-Fold Cross Validation</b> to ensure the result is reliable and not just luck.</div>
-    </div>
- 
   </div>
 
   <!-- Student Dropout Predictor -->
@@ -877,8 +807,31 @@
     </div>
   </div>
 
+  <!-- Portfolio Website -->
+  <div class="project-card" style="margin-top: 2rem;">
+    <div class="project-visual">
+      <div class="project-icon-big">🌐</div>
+    </div>
+    <div class="project-info">
+      <span class="project-badge">Web · Frontend · Live</span>
+      <h3>Personal Portfolio Website</h3>
+      <p>Designed and built a fully responsive personal portfolio website showcasing skills, projects, research, and experience. Features smooth animations, custom cursor, and clean dark UI.</p>
+      <p style="font-size:0.85rem; color:#aaa; margin-bottom:1rem;">Built from scratch using HTML, CSS, and JavaScript and deployed live on GitHub Pages.</p>
+      <div class="tech-stack">
+        <span class="tech-tag green">HTML</span>
+        <span class="tech-tag blue">CSS</span>
+        <span class="tech-tag purple">JavaScript</span>
+        <span class="tech-tag green">Responsive Design</span>
+        <span class="tech-tag blue">GitHub Pages</span>
+      </div>
+      <div style="display:flex; gap:1rem; margin-top:1.5rem; flex-wrap:wrap;">
+        <a href="https://rupalagudihaneef.github.io/haneefrupalagudi.github.io" target="_blank" class="btn btn-primary" style="font-size:0.8rem; padding:0.6rem 1.4rem;">Live Site →</a>
+      </div>
+    </div>
+  </div>
+
 </section>
- 
+
 <section id="experience">
   <div class="section-label"><span>Where I've worked</span></div>
   <h2 class="section-title">Experience</h2>
@@ -898,7 +851,7 @@
     </ul>
   </div>
 </section>
- 
+
 <section id="research">
   <div class="section-label"><span>Published Work</span></div>
   <h2 class="section-title">Research</h2>
@@ -917,26 +870,58 @@
     </div>
   </div>
 </section>
- 
+
 <section id="contact">
   <div class="contact-inner">
     <div class="section-label" style="justify-content:center"><span>Let's connect</span></div>
     <h2 class="section-title">Get In Touch</h2>
     <p>I'm actively looking for Python Developer and Data Analyst roles at startups. Feel free to reach out!</p>
     <div class="contact-links">
-      <a href="/cdn-cgi/l/email-protection#791118171c1c1f0b0c091815181e0c1d10391e14181015571a1614" class="contact-item">✉️ <span class="__cf_email__" data-cfemail="90f8f1fef5f5f6e2e5e0f1fcf1f7e5f4f9d0f7fdf1f9fcbef3fffd">[email&#160;protected]</span></a>
+      <a href="/cdn-cgi/l/email-protection#e58d848b8080839790958489848290818ca58288848c89cb868a88" class="contact-item">✉️ <span class="__cf_email__" data-cfemail="f49c959a9191928681849598959381909db49399959d98da979b99">[email&#160;protected]</span></a>
       <a href="tel:+919440934416" class="contact-item">📞 +91 9440934416</a>
       <a href="https://linkedin.com/in/haneef-rupalagudi-573b2b262" target="_blank" class="contact-item">💼 LinkedIn</a>
     </div>
-    <a href="/cdn-cgi/l/email-protection#8fe7eee1eaeae9fdfaffeee3eee8faebe6cfe8e2eee6e3a1ece0e2" class="btn btn-primary" style="font-size:1rem; padding:1rem 2.5rem;">Hire Me →</a>
+    <a href="/cdn-cgi/l/email-protection#284049464d4d4e5a5d584944494f5d4c41684f45494144064b4745" class="btn btn-primary" style="font-size:1rem; padding:1rem 2.5rem;">Hire Me →</a>
   </div>
 </section>
- 
+
 <footer>
   <p>Designed & Built by Haneef Rupalagudi · 2026</p>
 </footer>
- 
-<script>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'translate(-50%,-50%) scale(2)';
+      ring.style.transform = 'translate(-50%,-50%) scale(1.5)';
+      ring.style.opacity = '0.8';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+      ring.style.transform = 'translate(-50%,-50%) scale(1)';
+      ring.style.opacity = '0.5';
+    });
+  });
+
   // Scroll animations
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
