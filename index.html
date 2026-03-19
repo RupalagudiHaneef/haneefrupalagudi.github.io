@@ -16,634 +16,118 @@
     --text: #f0f0f0;
     --muted: #888;
   }
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; cursor: none; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    overflow-x: hidden;
-    cursor: auto;
-  }
+  .cursor { width: 14px; height: 14px; background: #c8f135; border-radius: 50%; position: fixed; pointer-events: none; z-index: 99999; display: none; }
+  .cursor-ring { width: 36px; height: 36px; border: 1.5px solid #c8f135; border-radius: 50%; position: fixed; pointer-events: none; z-index: 99998; opacity: 0.5; display: none; }
 
-  /* Custom cursor */
-  .cursor {
-    width: 14px; height: 14px;
-    background: var(--lime);
-    border-radius: 50%;
-    position: fixed;
-    top: 0; left: 0;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.15s ease, background 0.3s;
-    transform: translate(-50%, -50%);
-  }
-  .cursor-ring {
-    width: 40px; height: 40px;
-    border: 1.5px solid var(--lime);
-    border-radius: 50%;
-    position: fixed;
-    top: 0; left: 0;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: all 0.08s ease;
-    opacity: 0.5;
-  }
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1000; opacity: 0.4; }
 
-  /* Noise overlay */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1000;
-    opacity: 0.4;
-  }
-
-  /* NAV */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 4rem;
-    backdrop-filter: blur(12px);
-    background: rgba(10,10,15,0.7);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
-  .nav-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.2rem;
-    color: var(--lime);
-    letter-spacing: -0.5px;
-  }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 4rem; backdrop-filter: blur(12px); background: rgba(10,10,15,0.7); border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--lime); letter-spacing: -0.5px; }
   .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-  .nav-links a {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--muted);
-    text-decoration: none;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
+  .nav-links a { font-size: 0.85rem; font-weight: 500; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; }
   .nav-links a:hover { color: var(--lime); }
 
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 8rem 4rem 4rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 60% at 80% 20%, rgba(162,89,255,0.15) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(79,209,255,0.1) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 50% at 50% 50%, rgba(200,241,53,0.04) 0%, transparent 70%);
-  }
-
+  .hero { min-height: 100vh; display: flex; align-items: center; padding: 8rem 4rem 4rem; position: relative; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 60% at 80% 20%, rgba(162,89,255,0.15) 0%, transparent 60%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(79,209,255,0.1) 0%, transparent 60%); }
   .hero-content { position: relative; z-index: 2; max-width: 900px; }
-
-  .hero-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(200,241,53,0.1);
-    border: 1px solid rgba(200,241,53,0.3);
-    color: var(--lime);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.4rem 1rem;
-    border-radius: 100px;
-    margin-bottom: 2rem;
-    animation: fadeUp 0.6s ease both;
-  }
-  .hero-tag::before {
-    content: '';
-    width: 6px; height: 6px;
-    background: var(--lime);
-    border-radius: 50%;
-    animation: pulse 1.5s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.8); }
-  }
-
-  .hero h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(3.5rem, 8vw, 7rem);
-    font-weight: 800;
-    line-height: 0.95;
-    letter-spacing: -3px;
-    margin-bottom: 1.5rem;
-    animation: fadeUp 0.6s 0.1s ease both;
-  }
-
+  .hero-tag { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(200,241,53,0.1); border: 1px solid rgba(200,241,53,0.3); color: var(--lime); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 1rem; border-radius: 100px; margin-bottom: 2rem; animation: fadeUp 0.6s ease both; }
+  .hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--lime); border-radius: 50%; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
+  .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 800; line-height: 0.95; letter-spacing: -3px; margin-bottom: 1.5rem; animation: fadeUp 0.6s 0.1s ease both; }
   .hero h1 .line1 { display: block; color: var(--text); }
-  .hero h1 .line2 {
-    display: block;
-    background: linear-gradient(90deg, var(--lime), var(--sky));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .hero-desc {
-    font-size: 1.1rem;
-    color: var(--muted);
-    max-width: 520px;
-    line-height: 1.7;
-    margin-bottom: 2.5rem;
-    animation: fadeUp 0.6s 0.2s ease both;
-    font-weight: 300;
-  }
-
-  .hero-cta {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    animation: fadeUp 0.6s 0.3s ease both;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.85rem 2rem;
-    border-radius: 100px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    text-decoration: none;
-    transition: all 0.25s ease;
-    cursor: none;
-  }
-  .btn-primary {
-    background: var(--lime);
-    color: #0a0a0f;
-    font-weight: 700;
-  }
+  .hero h1 .line2 { display: block; background: linear-gradient(90deg, var(--lime), var(--sky)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-desc { font-size: 1.1rem; color: var(--muted); max-width: 520px; line-height: 1.7; margin-bottom: 2.5rem; animation: fadeUp 0.6s 0.2s ease both; font-weight: 300; }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp 0.6s 0.3s ease both; }
+  .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 2rem; border-radius: 100px; font-size: 0.9rem; font-weight: 500; text-decoration: none; transition: all 0.25s ease; cursor: none; }
+  .btn-primary { background: var(--lime); color: #0a0a0f; font-weight: 700; }
   .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(200,241,53,0.3); }
-  .btn-outline {
-    border: 1.5px solid rgba(255,255,255,0.15);
-    color: var(--text);
-  }
+  .btn-outline { border: 1.5px solid rgba(255,255,255,0.15); color: var(--text); }
   .btn-outline:hover { border-color: var(--sky); color: var(--sky); transform: translateY(-2px); }
-
-  .hero-scroll {
-    position: absolute;
-    bottom: 3rem;
-    right: 4rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--muted);
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    animation: fadeUp 0.6s 0.5s ease both;
-  }
-  .scroll-line {
-    width: 1px;
-    height: 60px;
-    background: linear-gradient(to bottom, var(--muted), transparent);
-    animation: scrollAnim 1.5s ease infinite;
-  }
-  @keyframes scrollAnim {
-    0% { transform: scaleY(0); transform-origin: top; }
-    50% { transform: scaleY(1); transform-origin: top; }
-    51% { transform: scaleY(1); transform-origin: bottom; }
-    100% { transform: scaleY(0); transform-origin: bottom; }
-  }
-
-  /* Floating blobs */
-  .blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    pointer-events: none;
-    animation: blobFloat 8s ease-in-out infinite;
-  }
-  .blob1 { width: 300px; height: 300px; background: rgba(162,89,255,0.12); top: 10%; right: 5%; animation-delay: 0s; }
+  .hero-scroll { position: absolute; bottom: 3rem; right: 4rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; color: var(--muted); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; }
+  .scroll-line { width: 1px; height: 60px; background: linear-gradient(to bottom, var(--muted), transparent); animation: scrollAnim 1.5s ease infinite; }
+  @keyframes scrollAnim { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+  .blob { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; animation: blobFloat 8s ease-in-out infinite; }
+  .blob1 { width: 300px; height: 300px; background: rgba(162,89,255,0.12); top: 10%; right: 5%; }
   .blob2 { width: 200px; height: 200px; background: rgba(79,209,255,0.1); bottom: 20%; right: 20%; animation-delay: 3s; }
   .blob3 { width: 150px; height: 150px; background: rgba(200,241,53,0.08); top: 50%; left: 60%; animation-delay: 5s; }
+  @keyframes blobFloat { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-30px) scale(1.05); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
 
-  @keyframes blobFloat {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-30px) scale(1.05); }
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* SECTIONS */
   section { padding: 6rem 4rem; }
+  .section-label { display: flex; align-items: center; gap: 1rem; margin-bottom: 3rem; }
+  .section-label span { font-family: 'Syne', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.07); }
+  .section-title { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 800; letter-spacing: -2px; line-height: 1.1; margin-bottom: 1rem; }
 
-  .section-label {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 3rem;
-  }
-  .section-label span {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: rgba(255,255,255,0.07);
-  }
-
-  .section-title {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    font-weight: 800;
-    letter-spacing: -2px;
-    line-height: 1.1;
-    margin-bottom: 1rem;
-  }
-
-  /* SKILLS */
   #skills { background: var(--card); }
-
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-top: 3rem;
-  }
-
-  .skill-card {
-    background: var(--bg);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 20px;
-    padding: 2rem;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-  .skill-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 0.3s;
-    border-radius: 20px;
-  }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+  .skill-card { background: var(--bg); border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; padding: 2rem; transition: all 0.3s ease; }
   .skill-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.12); }
-  .skill-card:nth-child(1)::before { background: radial-gradient(ellipse at top left, rgba(200,241,53,0.06), transparent 60%); }
-  .skill-card:nth-child(2)::before { background: radial-gradient(ellipse at top left, rgba(79,209,255,0.06), transparent 60%); }
-  .skill-card:nth-child(3)::before { background: radial-gradient(ellipse at top left, rgba(162,89,255,0.06), transparent 60%); }
-  .skill-card:nth-child(4)::before { background: radial-gradient(ellipse at top left, rgba(255,92,92,0.06), transparent 60%); }
-  .skill-card:hover::before { opacity: 1; }
-
-  .skill-icon {
-    width: 44px; height: 44px;
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.3rem;
-    margin-bottom: 1.2rem;
-  }
+  .skill-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 1.2rem; }
   .skill-card:nth-child(1) .skill-icon { background: rgba(200,241,53,0.12); }
   .skill-card:nth-child(2) .skill-icon { background: rgba(79,209,255,0.12); }
   .skill-card:nth-child(3) .skill-icon { background: rgba(162,89,255,0.12); }
   .skill-card:nth-child(4) .skill-icon { background: rgba(255,92,92,0.12); }
-
-  .skill-card h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: 0.8rem;
-  }
-
+  .skill-card h3 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.8rem; }
   .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .tag {
-    font-size: 0.75rem;
-    padding: 0.3rem 0.75rem;
-    border-radius: 100px;
-    background: rgba(255,255,255,0.05);
-    color: var(--muted);
-    border: 1px solid rgba(255,255,255,0.07);
-  }
+  .tag { font-size: 0.75rem; padding: 0.3rem 0.75rem; border-radius: 100px; background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid rgba(255,255,255,0.07); }
 
-  /* PROJECT */
   #project { background: var(--bg); }
-
-  .project-card {
-    background: var(--card);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 24px;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    transition: transform 0.3s ease;
-    margin-top: 3rem;
-  }
+  .project-card { background: var(--card); border: 1px solid rgba(255,255,255,0.06); border-radius: 24px; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; gap: 0; transition: transform 0.3s ease; margin-top: 3rem; }
   .project-card:hover { transform: translateY(-4px); }
-
-  .project-visual {
-    background: linear-gradient(135deg, rgba(162,89,255,0.2), rgba(79,209,255,0.2));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .project-visual::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at center, rgba(200,241,53,0.1), transparent 70%);
-  }
-  .project-icon-big {
-    font-size: 5rem;
-    filter: drop-shadow(0 0 30px rgba(162,89,255,0.5));
-    position: relative;
-    z-index: 1;
-    animation: floatIcon 3s ease-in-out infinite;
-  }
-  @keyframes floatIcon {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
-  }
-
+  .project-visual { background: linear-gradient(135deg, rgba(162,89,255,0.2), rgba(79,209,255,0.2)); display: flex; align-items: center; justify-content: center; padding: 3rem; position: relative; overflow: hidden; }
+  .project-visual::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(200,241,53,0.1), transparent 70%); }
+  .project-icon-big { font-size: 5rem; filter: drop-shadow(0 0 30px rgba(162,89,255,0.5)); position: relative; z-index: 1; animation: floatIcon 3s ease-in-out infinite; }
+  @keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
   .project-info { padding: 3rem; }
-  .project-badge {
-    display: inline-block;
-    background: rgba(200,241,53,0.1);
-    border: 1px solid rgba(200,241,53,0.3);
-    color: var(--lime);
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.3rem 0.8rem;
-    border-radius: 100px;
-    margin-bottom: 1rem;
-  }
-  .project-info h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.6rem;
-    font-weight: 800;
-    letter-spacing: -1px;
-    margin-bottom: 1rem;
-    line-height: 1.2;
-  }
-  .project-info p {
-    color: var(--muted);
-    font-size: 0.95rem;
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
-    font-weight: 300;
-  }
-  .project-stat {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.3rem;
-    background: rgba(200,241,53,0.08);
-    border: 1px solid rgba(200,241,53,0.2);
-    padding: 0.5rem 1rem;
-    border-radius: 12px;
-    margin-bottom: 1.5rem;
-  }
-  .project-stat .num {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: var(--lime);
-  }
+  .project-badge { display: inline-block; background: rgba(200,241,53,0.1); border: 1px solid rgba(200,241,53,0.3); color: var(--lime); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 100px; margin-bottom: 1rem; }
+  .project-info h3 { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 1rem; line-height: 1.2; }
+  .project-info p { color: var(--muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem; font-weight: 300; }
+  .project-stat { display: inline-flex; align-items: baseline; gap: 0.3rem; background: rgba(200,241,53,0.08); border: 1px solid rgba(200,241,53,0.2); padding: 0.5rem 1rem; border-radius: 12px; margin-bottom: 1.5rem; }
+  .project-stat .num { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--lime); }
   .project-stat .label { font-size: 0.8rem; color: var(--muted); }
-
   .tech-stack { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .tech-tag {
-    font-size: 0.75rem;
-    padding: 0.3rem 0.75rem;
-    border-radius: 8px;
-    font-weight: 500;
-  }
+  .tech-tag { font-size: 0.75rem; padding: 0.3rem 0.75rem; border-radius: 8px; font-weight: 500; }
   .tech-tag.purple { background: rgba(162,89,255,0.15); color: #c4a0ff; border: 1px solid rgba(162,89,255,0.2); }
   .tech-tag.blue { background: rgba(79,209,255,0.15); color: #7de8ff; border: 1px solid rgba(79,209,255,0.2); }
   .tech-tag.green { background: rgba(200,241,53,0.1); color: var(--lime); border: 1px solid rgba(200,241,53,0.2); }
 
-  /* EXPERIENCE */
   #experience { background: var(--card); }
-
-  .exp-card {
-    background: var(--bg);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 20px;
-    padding: 2.5rem;
-    margin-top: 2rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .exp-card::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: linear-gradient(to bottom, var(--lime), var(--sky));
-    border-radius: 3px 0 0 3px;
-  }
-  .exp-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-  .exp-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin-bottom: 0.3rem;
-  }
+  .exp-card { background: var(--bg); border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; padding: 2.5rem; margin-top: 2rem; position: relative; overflow: hidden; }
+  .exp-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom, var(--lime), var(--sky)); border-radius: 3px 0 0 3px; }
+  .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem; }
+  .exp-title { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.3rem; }
   .exp-company { color: var(--sky); font-size: 0.9rem; font-weight: 500; }
-  .exp-date {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-    padding: 0.3rem 0.8rem;
-    border-radius: 100px;
-    font-size: 0.75rem;
-    color: var(--muted);
-    white-space: nowrap;
-  }
+  .exp-date { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); padding: 0.3rem 0.8rem; border-radius: 100px; font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
   .exp-points { list-style: none; margin-top: 1rem; }
-  .exp-points li {
-    color: var(--muted);
-    font-size: 0.9rem;
-    line-height: 1.7;
-    padding: 0.3rem 0;
-    padding-left: 1.2rem;
-    position: relative;
-    font-weight: 300;
-  }
-  .exp-points li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: var(--lime);
-    font-size: 0.8rem;
-  }
+  .exp-points li { color: var(--muted); font-size: 0.9rem; line-height: 1.7; padding: 0.3rem 0 0.3rem 1.2rem; position: relative; font-weight: 300; }
+  .exp-points li::before { content: '→'; position: absolute; left: 0; color: var(--lime); font-size: 0.8rem; }
 
-  /* RESEARCH */
   #research { background: var(--bg); }
-
-  .research-card {
-    background: linear-gradient(135deg, rgba(162,89,255,0.08), rgba(79,209,255,0.08));
-    border: 1px solid rgba(162,89,255,0.2);
-    border-radius: 24px;
-    padding: 3rem;
-    margin-top: 3rem;
-    display: flex;
-    gap: 3rem;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .research-badge {
-    background: rgba(162,89,255,0.15);
-    border: 1px solid rgba(162,89,255,0.3);
-    color: #c4a0ff;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.3rem 0.8rem;
-    border-radius: 100px;
-    display: inline-block;
-    margin-bottom: 1rem;
-  }
-  .research-info h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.4rem;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    margin-bottom: 0.8rem;
-    line-height: 1.3;
-  }
-  .research-info p {
-    color: var(--muted);
-    font-size: 0.9rem;
-    line-height: 1.7;
-    font-weight: 300;
-    max-width: 500px;
-    margin-bottom: 1.5rem;
-  }
-  .research-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--sky);
-    font-size: 0.85rem;
-    font-weight: 500;
-    text-decoration: none;
-    border-bottom: 1px solid rgba(79,209,255,0.3);
-    padding-bottom: 2px;
-    transition: all 0.2s;
-  }
+  .research-card { background: linear-gradient(135deg, rgba(162,89,255,0.08), rgba(79,209,255,0.08)); border: 1px solid rgba(162,89,255,0.2); border-radius: 24px; padding: 3rem; margin-top: 3rem; display: flex; gap: 3rem; align-items: center; flex-wrap: wrap; }
+  .research-badge { background: rgba(162,89,255,0.15); border: 1px solid rgba(162,89,255,0.3); color: #c4a0ff; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 100px; display: inline-block; margin-bottom: 1rem; }
+  .research-info h3 { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 0.8rem; line-height: 1.3; }
+  .research-info p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; font-weight: 300; max-width: 500px; margin-bottom: 1.5rem; }
+  .research-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--sky); font-size: 0.85rem; font-weight: 500; text-decoration: none; border-bottom: 1px solid rgba(79,209,255,0.3); padding-bottom: 2px; transition: all 0.2s; }
   .research-link:hover { color: var(--lime); border-color: var(--lime); }
+  .research-stat-big { text-align: center; flex-shrink: 0; }
+  .research-stat-big .big-num { font-family: 'Syne', sans-serif; font-size: 4rem; font-weight: 800; background: linear-gradient(90deg, var(--violet), var(--sky)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
+  .research-stat-big .big-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem; }
 
-  .research-stat-big {
-    text-align: center;
-    flex-shrink: 0;
-  }
-  .research-stat-big .big-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 4rem;
-    font-weight: 800;
-    background: linear-gradient(90deg, var(--violet), var(--sky));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1;
-  }
-  .research-stat-big .big-label {
-    font-size: 0.8rem;
-    color: var(--muted);
-    margin-top: 0.3rem;
-  }
-
-  /* CONTACT */
-  #contact {
-    background: var(--card);
-    text-align: center;
-  }
+  #contact { background: var(--card); text-align: center; }
   .contact-inner { max-width: 600px; margin: 0 auto; }
-  .contact-inner .section-title {
-    background: linear-gradient(90deg, var(--lime), var(--sky));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 1rem;
-  }
-  .contact-inner p {
-    color: var(--muted);
-    font-size: 1rem;
-    line-height: 1.7;
-    margin-bottom: 2.5rem;
-    font-weight: 300;
-  }
-  .contact-links {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-bottom: 3rem;
-  }
-  .contact-item {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    background: var(--bg);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 12px;
-    padding: 0.75rem 1.25rem;
-    font-size: 0.85rem;
-    color: var(--text);
-    text-decoration: none;
-    transition: all 0.25s;
-  }
+  .contact-inner .section-title { background: linear-gradient(90deg, var(--lime), var(--sky)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+  .contact-inner p { color: var(--muted); font-size: 1rem; line-height: 1.7; margin-bottom: 2.5rem; font-weight: 300; }
+  .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+  .contact-item { display: flex; align-items: center; gap: 0.6rem; background: var(--bg); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 0.75rem 1.25rem; font-size: 0.85rem; color: var(--text); text-decoration: none; transition: all 0.25s; }
   .contact-item:hover { border-color: var(--lime); color: var(--lime); transform: translateY(-2px); }
 
-  /* FOOTER */
-  footer {
-    text-align: center;
-    padding: 2rem;
-    color: var(--muted);
-    font-size: 0.8rem;
-    border-top: 1px solid rgba(255,255,255,0.05);
-  }
+  footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.05); }
 
-  /* Responsive */
   @media (max-width: 768px) {
     nav { padding: 1.2rem 1.5rem; }
     .nav-links { display: none; }
@@ -676,7 +160,6 @@
   <div class="blob blob1"></div>
   <div class="blob blob2"></div>
   <div class="blob blob3"></div>
-
   <div class="hero-content">
     <div class="hero-tag">Available for work · Bengaluru, India</div>
     <h1>
@@ -689,7 +172,6 @@
       <a href="#contact" class="btn btn-outline">Get In Touch</a>
     </div>
   </div>
-
   <div class="hero-scroll">
     <div class="scroll-line"></div>
     <span>Scroll</span>
@@ -702,25 +184,57 @@
   <div class="skills-grid">
     <div class="skill-card">
       <div class="skill-icon">🐍</div>
-      <h3>Python</h3>
+      <h3>Programming</h3>
       <div class="skill-tags">
+        <span class="tag">Python</span>
         <span class="tag">Core Python</span>
+        <span class="tag">Advanced Python</span>
         <span class="tag">OOP</span>
         <span class="tag">Decorators</span>
         <span class="tag">File Handling</span>
         <span class="tag">Exception Handling</span>
-        <span class="tag">Modules</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🤖</div>
+      <h3>Machine Learning</h3>
+      <div class="skill-tags">
+        <span class="tag">Scikit-learn</span>
+        <span class="tag">XGBoost</span>
+        <span class="tag">Random Forest</span>
+        <span class="tag">SVC</span>
+        <span class="tag">Stacking Classifier</span>
+        <span class="tag">Voting Classifier</span>
+        <span class="tag">Hyperparameter Tuning</span>
       </div>
     </div>
     <div class="skill-card">
       <div class="skill-icon">📊</div>
-      <h3>Data & ML</h3>
+      <h3>Data Analysis</h3>
       <div class="skill-tags">
         <span class="tag">Pandas</span>
         <span class="tag">NumPy</span>
+        <span class="tag">EDA</span>
+        <span class="tag">Data Cleaning</span>
+        <span class="tag">Feature Engineering</span>
+        <span class="tag">Statistical Analysis</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">📈</div>
+      <h3>Data Visualization</h3>
+      <div class="skill-tags">
         <span class="tag">Matplotlib</span>
         <span class="tag">Seaborn</span>
-        <span class="tag">XGBoost</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🚀</div>
+      <h3>Deployment</h3>
+      <div class="skill-tags">
+        <span class="tag">Streamlit</span>
+        <span class="tag">Streamlit Cloud</span>
+        <span class="tag">GitHub Pages</span>
       </div>
     </div>
     <div class="skill-card">
@@ -729,19 +243,30 @@
       <div class="skill-tags">
         <span class="tag">SQL</span>
         <span class="tag">Queries</span>
-        <span class="tag">CRUD</span>
+        <span class="tag">CRUD Operations</span>
         <span class="tag">Data Management</span>
       </div>
     </div>
     <div class="skill-card">
-      <div class="skill-icon">🤖</div>
-      <h3>Applied ML</h3>
+      <div class="skill-icon">🔧</div>
+      <h3>Version Control & Tools</h3>
       <div class="skill-tags">
-        <span class="tag">Random Forest</span>
-        <span class="tag">SVC</span>
-        <span class="tag">Ensemble Methods</span>
-        <span class="tag">Stacking</span>
-        <span class="tag">Voting Classifiers</span>
+        <span class="tag">Git</span>
+        <span class="tag">GitHub</span>
+        <span class="tag">Google Colab</span>
+        <span class="tag">VS Code</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🧠</div>
+      <h3>Generative AI</h3>
+      <div class="skill-tags">
+        <span class="tag">Prompt Engineering</span>
+        <span class="tag">Zero-shot Prompting</span>
+        <span class="tag">Few-shot Prompting</span>
+        <span class="tag">Chain-of-thought</span>
+        <span class="tag">LLM Integration</span>
+        <span class="tag">Transformer Architecture</span>
       </div>
     </div>
   </div>
@@ -749,7 +274,9 @@
 
 <section id="project">
   <div class="section-label"><span>Featured Work</span></div>
-  <h2 class="section-title">Project</h2>
+  <h2 class="section-title">Projects</h2>
+
+  <!-- Project 1 - Sleep Disorder -->
   <div class="project-card">
     <div class="project-visual">
       <div class="project-icon-big">😴</div>
@@ -757,8 +284,8 @@
     <div class="project-info">
       <span class="project-badge">ML · Healthcare · IEEE Published</span>
       <h3>Sleep Disorder Classification using Ensemble ML</h3>
-      <p>Sleep disorders are often underdiagnosed due to costly lab tests. Built an ensemble ML system using the <b>Sleep Health & Lifestyle Dataset</b> to automate classification — making early diagnosis faster and accessible.</p>
-      <p style="font-size:0.85rem; color:#aaa; margin-bottom:1rem;">Data was preprocessed using encoding and feature engineering, then trained using Stacking and Voting Classifiers. Both models achieved 92% accuracy and were validated through cross-validation.</p>
+      <p>Built an ensemble ML system using the Sleep Health & Lifestyle Dataset to automate sleep disorder classification — making early diagnosis faster and accessible without costly lab tests.</p>
+      <p style="font-size:0.85rem; color:#aaa; margin-bottom:1rem;">Data preprocessed using encoding and feature engineering, then trained using Stacking and Voting Classifiers. Both models achieved 92% accuracy validated through cross-validation.</p>
       <div class="project-stat">
         <span class="num">92%</span>
         <span class="label">Accuracy (Stacking & Voting Classifiers)</span>
@@ -773,10 +300,122 @@
         <span class="tech-tag purple">Cross Validation</span>
         <span class="tech-tag blue">Python</span>
       </div>
+      <div style="display:flex; gap:1rem; margin-top:1.5rem; flex-wrap:wrap;">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeJWZhrDBlww_avlLnu0JF9wReOlz3jjWx02Jk0Z-l89-pzOQ/viewform?usp=dialog" target="_blank" class="btn btn-outline" style="font-size:0.8rem; padding:0.6rem 1.4rem;">▶ View Project</a>
+        <a href="https://ieeexplore.ieee.org/document/10864175" target="_blank" class="btn btn-primary" style="font-size:0.8rem; padding:0.6rem 1.4rem;">IEEE Paper →</a>
+      </div>
     </div>
   </div>
 
-  <!-- Student Dropout Predictor -->
+  <!-- Sleep Disorder Project Details -->
+  <div style="margin-top:2rem; background:var(--card); border:1px solid rgba(255,255,255,0.06); border-radius:24px; padding:2.5rem;">
+    <h3 style="font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; letter-spacing:-0.5px; margin-bottom:0.5rem;">🔍 How Sleep Disorder Detection Works</h3>
+    <p style="color:var(--muted); font-size:0.85rem; margin-bottom:2rem;">A complete breakdown — from raw data to final prediction.</p>
+
+    <div style="background:rgba(255,92,92,0.06); border:1px solid rgba(255,92,92,0.2); border-radius:16px; padding:1.5rem; margin-bottom:1.5rem;">
+      <div style="font-weight:700; font-size:1rem; color:#ff8080; margin-bottom:0.5rem;">🎯 Problem</div>
+      <div style="color:#ccc; font-size:0.9rem; line-height:1.7;">Sleep disorders like <b style="color:#f0f0f0;">Insomnia</b> and <b style="color:#f0f0f0;">Sleep Apnea</b> are often underdiagnosed because lab tests are costly and time-consuming. This project automates the diagnosis using machine learning — making it faster and accessible to everyone.</div>
+    </div>
+
+    <div style="background:rgba(79,209,255,0.06); border:1px solid rgba(79,209,255,0.2); border-radius:16px; padding:1.5rem; margin-bottom:1.5rem;">
+      <div style="font-weight:700; font-size:1rem; color:#4fd1ff; margin-bottom:0.8rem;">📦 Dataset — Sleep Health & Lifestyle</div>
+      <div style="color:#ccc; font-size:0.85rem; margin-bottom:0.8rem;">The model uses these real-world health inputs:</div>
+      <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Age</span>
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Gender</span>
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Occupation</span>
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Sleep Duration</span>
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Sleep Quality</span>
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Physical Activity</span>
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Stress Level</span>
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">BMI</span>
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Blood Pressure</span>
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Heart Rate</span>
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Daily Steps</span>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:1rem; margin-bottom:1.5rem;">
+      <div style="display:flex; gap:1rem; align-items:flex-start; padding:1.2rem; background:rgba(255,255,255,0.03); border-radius:14px;">
+        <div style="min-width:32px; height:32px; background:rgba(200,241,53,0.15); border:1px solid rgba(200,241,53,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:0.75rem; color:#c8f135;">1</div>
+        <div>
+          <div style="font-weight:600; font-size:0.95rem; margin-bottom:0.4rem;">Data Cleaning & Preprocessing</div>
+          <div style="color:var(--muted); font-size:0.85rem; line-height:1.7;">Text values like <b style="color:#f0f0f0;">"Male"</b> or <b style="color:#f0f0f0;">"Engineer"</b> are converted to numbers using <b style="color:#f0f0f0;">Label Encoding</b>. Blood Pressure like <b style="color:#f0f0f0;">"120/80"</b> is split into Systolic and Diastolic columns. Missing values are handled and data is standardized.</div>
+        </div>
+      </div>
+      <div style="display:flex; gap:1rem; align-items:flex-start; padding:1.2rem; background:rgba(255,255,255,0.03); border-radius:14px;">
+        <div style="min-width:32px; height:32px; background:rgba(79,209,255,0.15); border:1px solid rgba(79,209,255,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:0.75rem; color:#4fd1ff;">2</div>
+        <div>
+          <div style="font-weight:600; font-size:0.95rem; margin-bottom:0.4rem;">Feature Scaling</div>
+          <div style="color:var(--muted); font-size:0.85rem; line-height:1.7;"><b style="color:#f0f0f0;">StandardScaler</b> normalizes all features to the same range so no single feature dominates the model due to its magnitude.</div>
+        </div>
+      </div>
+      <div style="display:flex; gap:1rem; align-items:flex-start; padding:1.2rem; background:rgba(255,255,255,0.03); border-radius:14px;">
+        <div style="min-width:32px; height:32px; background:rgba(162,89,255,0.15); border:1px solid rgba(162,89,255,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:0.75rem; color:#a259ff;">3</div>
+        <div>
+          <div style="font-weight:600; font-size:0.95rem; margin-bottom:0.4rem;">Three ML Models</div>
+          <div style="color:var(--muted); font-size:0.85rem; line-height:1.7;">
+            <b style="color:#f0f0f0;">Random Forest</b> — builds 100 decision trees and takes a majority vote.<br><br>
+            <b style="color:#f0f0f0;">SVC</b> — draws the best boundary line to separate the classes.<br><br>
+            <b style="color:#f0f0f0;">XGBoost</b> — learns from mistakes iteratively to get stronger each round.
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; gap:1rem; align-items:flex-start; padding:1.2rem; background:rgba(255,255,255,0.03); border-radius:14px;">
+        <div style="min-width:32px; height:32px; background:rgba(255,92,92,0.15); border:1px solid rgba(255,92,92,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:0.75rem; color:#ff5c5c;">4</div>
+        <div>
+          <div style="font-weight:600; font-size:0.95rem; margin-bottom:0.4rem;">Ensemble Methods</div>
+          <div style="color:var(--muted); font-size:0.85rem; line-height:1.7;">
+            <b style="color:#f0f0f0;">Voting Classifier</b> — all 3 models vote and the class with highest combined probability wins.<br><br>
+            <b style="color:#f0f0f0;">Stacking Classifier</b> — a meta-model learns from all 3 models predictions to make the final call.
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; gap:1rem; align-items:flex-start; padding:1.2rem; background:rgba(255,255,255,0.03); border-radius:14px;">
+        <div style="min-width:32px; height:32px; background:rgba(200,241,53,0.15); border:1px solid rgba(200,241,53,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:0.75rem; color:#c8f135;">5</div>
+        <div>
+          <div style="font-weight:600; font-size:0.95rem; margin-bottom:0.4rem;">Final Output</div>
+          <div style="color:var(--muted); font-size:0.85rem; line-height:1.7; margin-bottom:0.8rem;">The model predicts one of three labels:</div>
+          <div style="display:flex; gap:0.7rem; flex-wrap:wrap;">
+            <span style="background:rgba(200,241,53,0.1); border:1px solid rgba(200,241,53,0.3); color:#c8f135; font-size:0.8rem; font-weight:600; padding:0.4rem 1rem; border-radius:100px;">✅ None</span>
+            <span style="background:rgba(255,92,92,0.1); border:1px solid rgba(255,92,92,0.3); color:#ff8080; font-size:0.8rem; font-weight:600; padding:0.4rem 1rem; border-radius:100px;">😴 Insomnia</span>
+            <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.3); color:#4fd1ff; font-size:0.8rem; font-weight:600; padding:0.4rem 1rem; border-radius:100px;">😮 Sleep Apnea</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:rgba(200,241,53,0.06); border:1px solid rgba(200,241,53,0.2); border-radius:16px; padding:1.5rem; margin-bottom:1.5rem;">
+      <div style="font-weight:700; font-size:1rem; color:#c8f135; margin-bottom:0.8rem;">🛠️ Tools & Technologies Used</div>
+      <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+        <span style="background:rgba(200,241,53,0.1); border:1px solid rgba(200,241,53,0.2); color:#c8f135; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">Python</span>
+        <span style="background:rgba(162,89,255,0.15); border:1px solid rgba(162,89,255,0.2); color:#c4a0ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">Pandas</span>
+        <span style="background:rgba(162,89,255,0.15); border:1px solid rgba(162,89,255,0.2); color:#c4a0ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">NumPy</span>
+        <span style="background:rgba(79,209,255,0.15); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">Scikit-learn</span>
+        <span style="background:rgba(79,209,255,0.15); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">XGBoost</span>
+        <span style="background:rgba(200,241,53,0.1); border:1px solid rgba(200,241,53,0.2); color:#c8f135; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">Random Forest</span>
+        <span style="background:rgba(162,89,255,0.15); border:1px solid rgba(162,89,255,0.2); color:#c4a0ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">SVC</span>
+        <span style="background:rgba(79,209,255,0.15); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">Stacking Classifier</span>
+        <span style="background:rgba(200,241,53,0.1); border:1px solid rgba(200,241,53,0.2); color:#c8f135; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">Voting Classifier</span>
+        <span style="background:rgba(162,89,255,0.15); border:1px solid rgba(162,89,255,0.2); color:#c4a0ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">Matplotlib</span>
+        <span style="background:rgba(79,209,255,0.15); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">Seaborn</span>
+        <span style="background:rgba(200,241,53,0.1); border:1px solid rgba(200,241,53,0.2); color:#c8f135; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">Google Colab</span>
+        <span style="background:rgba(162,89,255,0.15); border:1px solid rgba(162,89,255,0.2); color:#c4a0ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">Label Encoding</span>
+        <span style="background:rgba(79,209,255,0.15); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">StandardScaler</span>
+        <span style="background:rgba(200,241,53,0.1); border:1px solid rgba(200,241,53,0.2); color:#c8f135; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">5-Fold Cross Validation</span>
+      </div>
+    </div>
+
+    <div style="background:rgba(162,89,255,0.06); border:1px solid rgba(162,89,255,0.2); border-radius:16px; padding:1.5rem; display:flex; align-items:center; gap:2rem; flex-wrap:wrap;">
+      <div>
+        <div style="font-family:'Syne',sans-serif; font-size:3rem; font-weight:800; background:linear-gradient(90deg,#a259ff,#4fd1ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; line-height:1;">92%</div>
+        <div style="color:var(--muted); font-size:0.8rem; margin-top:0.2rem;">Final Accuracy</div>
+      </div>
+      <div style="color:#ccc; font-size:0.875rem; line-height:1.7; max-width:480px;">Both Voting and Stacking Classifiers achieved <b style="color:#f0f0f0;">92% accuracy</b> — validated using <b style="color:#f0f0f0;">5-Fold Cross Validation</b> to ensure reliable and consistent results.</div>
+    </div>
+  </div>
+
+  <!-- Project 2 - Student Dropout -->
   <div class="project-card" style="margin-top: 2rem;">
     <div class="project-visual">
       <div class="project-icon-big">🎓</div>
@@ -807,28 +446,110 @@
     </div>
   </div>
 
-  <!-- Portfolio Website -->
-  <div class="project-card" style="margin-top: 2rem;">
-    <div class="project-visual">
-      <div class="project-icon-big">🌐</div>
+  <!-- Student Dropout Project Details -->
+  <div style="margin-top:2rem; background:var(--card); border:1px solid rgba(255,255,255,0.06); border-radius:24px; padding:2.5rem;">
+    <h3 style="font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; letter-spacing:-0.5px; margin-bottom:0.5rem;">🔍 How Student Dropout Risk Predictor Works</h3>
+    <p style="color:var(--muted); font-size:0.85rem; margin-bottom:2rem;">A complete breakdown — from raw data to real-time prediction.</p>
+
+    <!-- Problem -->
+    <div style="background:rgba(255,92,92,0.06); border:1px solid rgba(255,92,92,0.2); border-radius:16px; padding:1.5rem; margin-bottom:1.5rem;">
+      <div style="font-weight:700; font-size:1rem; color:#ff8080; margin-bottom:0.5rem;">🎯 Problem</div>
+      <div style="color:#ccc; font-size:0.9rem; line-height:1.7;">Educational institutions lose students to dropout every year — but they find out too late. This project predicts <b style="color:#f0f0f0;">early</b> which students are at risk of dropping out, so counselors can intervene before it's too late.</div>
     </div>
-    <div class="project-info">
-      <span class="project-badge">Web · Frontend · Live</span>
-      <h3>Personal Portfolio Website</h3>
-      <p>Designed and built a fully responsive personal portfolio website showcasing skills, projects, research, and experience. Features smooth animations, custom cursor, and clean dark UI.</p>
-      <p style="font-size:0.85rem; color:#aaa; margin-bottom:1rem;">Built from scratch using HTML, CSS, and JavaScript and deployed live on GitHub Pages.</p>
-      <div class="tech-stack">
-        <span class="tech-tag green">HTML</span>
-        <span class="tech-tag blue">CSS</span>
-        <span class="tech-tag purple">JavaScript</span>
-        <span class="tech-tag green">Responsive Design</span>
-        <span class="tech-tag blue">GitHub Pages</span>
+
+    <!-- Dataset -->
+    <div style="background:rgba(79,209,255,0.06); border:1px solid rgba(79,209,255,0.2); border-radius:16px; padding:1.5rem; margin-bottom:1.5rem;">
+      <div style="font-weight:700; font-size:1rem; color:#4fd1ff; margin-bottom:0.8rem;">📦 Dataset — 4424 Students, 35 Features</div>
+      <div style="color:#ccc; font-size:0.85rem; margin-bottom:0.8rem;">Key features used for prediction:</div>
+      <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Age at Enrollment</span>
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Gender</span>
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Scholarship Holder</span>
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Tuition Fees Up to Date</span>
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Debtor</span>
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">1st Sem Subjects Approved</span>
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">1st Sem Grade</span>
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">2nd Sem Subjects Approved</span>
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">2nd Sem Grade</span>
+        <span style="background:rgba(79,209,255,0.1); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:100px;">Unemployment Rate</span>
       </div>
-      <div style="display:flex; gap:1rem; margin-top:1.5rem; flex-wrap:wrap;">
-        <a href="https://rupalagudihaneef.github.io/haneefrupalagudi.github.io" target="_blank" class="btn btn-primary" style="font-size:0.8rem; padding:0.6rem 1.4rem;">Live Site →</a>
+    </div>
+
+    <!-- How it works -->
+    <div style="display:flex; flex-direction:column; gap:1rem; margin-bottom:1.5rem;">
+      <div style="display:flex; gap:1rem; align-items:flex-start; padding:1.2rem; background:rgba(255,255,255,0.03); border-radius:14px;">
+        <div style="min-width:32px; height:32px; background:rgba(200,241,53,0.15); border:1px solid rgba(200,241,53,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:0.75rem; color:#c8f135;">1</div>
+        <div>
+          <div style="font-weight:600; font-size:0.95rem; margin-bottom:0.4rem;">Exploratory Data Analysis (EDA)</div>
+          <div style="color:var(--muted); font-size:0.85rem; line-height:1.7;">Analyzed patterns across 4424 students — identified that students with low 2nd semester grades, unpaid tuition fees, and fewer approved subjects are at highest dropout risk.</div>
+        </div>
       </div>
+      <div style="display:flex; gap:1rem; align-items:flex-start; padding:1.2rem; background:rgba(255,255,255,0.03); border-radius:14px;">
+        <div style="min-width:32px; height:32px; background:rgba(79,209,255,0.15); border:1px solid rgba(79,209,255,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:0.75rem; color:#4fd1ff;">2</div>
+        <div>
+          <div style="font-weight:600; font-size:0.95rem; margin-bottom:0.4rem;">Data Preprocessing</div>
+          <div style="color:var(--muted); font-size:0.85rem; line-height:1.7;">Handled missing values, encoded categorical variables, applied <b style="color:#f0f0f0;">StandardScaler</b> for feature scaling, and performed train-test splitting for model readiness.</div>
+        </div>
+      </div>
+      <div style="display:flex; gap:1rem; align-items:flex-start; padding:1.2rem; background:rgba(255,255,255,0.03); border-radius:14px;">
+        <div style="min-width:32px; height:32px; background:rgba(162,89,255,0.15); border:1px solid rgba(162,89,255,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:0.75rem; color:#a259ff;">3</div>
+        <div>
+          <div style="font-weight:600; font-size:0.95rem; margin-bottom:0.4rem;">XGBoost Model Training</div>
+          <div style="color:var(--muted); font-size:0.85rem; line-height:1.7;"><b style="color:#f0f0f0;">XGBoost Classifier</b> was trained on 80% of the data (3539 students) and tested on 20% (885 students). Hyperparameter tuning was performed to optimize accuracy to <b style="color:#f0f0f0;">77.4%</b>.</div>
+        </div>
+      </div>
+      <div style="display:flex; gap:1rem; align-items:flex-start; padding:1.2rem; background:rgba(255,255,255,0.03); border-radius:14px;">
+        <div style="min-width:32px; height:32px; background:rgba(255,92,92,0.15); border:1px solid rgba(255,92,92,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:0.75rem; color:#ff5c5c;">4</div>
+        <div>
+          <div style="font-weight:600; font-size:0.95rem; margin-bottom:0.4rem;">Feature Importance Analysis</div>
+          <div style="color:var(--muted); font-size:0.85rem; line-height:1.7;">Top 3 dropout predictors identified: <b style="color:#f0f0f0;">2nd Semester Approved Subjects</b>, <b style="color:#f0f0f0;">Tuition Fees Up to Date</b>, and <b style="color:#f0f0f0;">1st Semester Grade</b>.</div>
+        </div>
+      </div>
+      <div style="display:flex; gap:1rem; align-items:flex-start; padding:1.2rem; background:rgba(255,255,255,0.03); border-radius:14px;">
+        <div style="min-width:32px; height:32px; background:rgba(200,241,53,0.15); border:1px solid rgba(200,241,53,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:0.75rem; color:#c8f135;">5</div>
+        <div>
+          <div style="font-weight:600; font-size:0.95rem; margin-bottom:0.4rem;">Streamlit Web App</div>
+          <div style="color:var(--muted); font-size:0.85rem; line-height:1.7; margin-bottom:0.8rem;">Deployed a live web application where counselors can enter student details and instantly get predictions with probability breakdown and recommended actions.</div>
+          <div style="display:flex; gap:0.7rem; flex-wrap:wrap;">
+            <span style="background:rgba(255,92,92,0.1); border:1px solid rgba(255,92,92,0.3); color:#ff8080; font-size:0.8rem; font-weight:600; padding:0.4rem 1rem; border-radius:100px;">⚠️ Dropout Risk</span>
+            <span style="background:rgba(255,165,0,0.1); border:1px solid rgba(255,165,0,0.3); color:#ffa500; font-size:0.8rem; font-weight:600; padding:0.4rem 1rem; border-radius:100px;">⏳ Enrolled</span>
+            <span style="background:rgba(200,241,53,0.1); border:1px solid rgba(200,241,53,0.3); color:#c8f135; font-size:0.8rem; font-weight:600; padding:0.4rem 1rem; border-radius:100px;">✅ Graduate</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tools Used -->
+    <div style="background:rgba(200,241,53,0.06); border:1px solid rgba(200,241,53,0.2); border-radius:16px; padding:1.5rem; margin-bottom:1.5rem;">
+      <div style="font-weight:700; font-size:1rem; color:#c8f135; margin-bottom:0.8rem;">🛠️ Tools & Technologies Used</div>
+      <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+        <span style="background:rgba(200,241,53,0.1); border:1px solid rgba(200,241,53,0.2); color:#c8f135; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">Python</span>
+        <span style="background:rgba(162,89,255,0.15); border:1px solid rgba(162,89,255,0.2); color:#c4a0ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">Pandas</span>
+        <span style="background:rgba(162,89,255,0.15); border:1px solid rgba(162,89,255,0.2); color:#c4a0ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">NumPy</span>
+        <span style="background:rgba(79,209,255,0.15); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">Scikit-learn</span>
+        <span style="background:rgba(79,209,255,0.15); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">XGBoost</span>
+        <span style="background:rgba(200,241,53,0.1); border:1px solid rgba(200,241,53,0.2); color:#c8f135; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">Streamlit</span>
+        <span style="background:rgba(162,89,255,0.15); border:1px solid rgba(162,89,255,0.2); color:#c4a0ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">Matplotlib</span>
+        <span style="background:rgba(79,209,255,0.15); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">Seaborn</span>
+        <span style="background:rgba(200,241,53,0.1); border:1px solid rgba(200,241,53,0.2); color:#c8f135; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">Google Colab</span>
+        <span style="background:rgba(162,89,255,0.15); border:1px solid rgba(162,89,255,0.2); color:#c4a0ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">StandardScaler</span>
+        <span style="background:rgba(79,209,255,0.15); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">Feature Engineering</span>
+        <span style="background:rgba(200,241,53,0.1); border:1px solid rgba(200,241,53,0.2); color:#c8f135; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">EDA</span>
+        <span style="background:rgba(162,89,255,0.15); border:1px solid rgba(162,89,255,0.2); color:#c4a0ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">Streamlit Cloud</span>
+        <span style="background:rgba(79,209,255,0.15); border:1px solid rgba(79,209,255,0.2); color:#7de8ff; font-size:0.75rem; padding:0.3rem 0.75rem; border-radius:8px; font-weight:500;">Git & GitHub</span>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div style="background:rgba(200,241,53,0.06); border:1px solid rgba(200,241,53,0.2); border-radius:16px; padding:1.5rem; display:flex; align-items:center; gap:2rem; flex-wrap:wrap;">
+      <div>
+        <div style="font-family:'Syne',sans-serif; font-size:3rem; font-weight:800; color:#c8f135; line-height:1;">77.4%</div>
+        <div style="color:var(--muted); font-size:0.8rem; margin-top:0.2rem;">Classification Accuracy</div>
+      </div>
+      <div style="color:#ccc; font-size:0.875rem; line-height:1.7; max-width:480px;">XGBoost Classifier achieved <b style="color:#f0f0f0;">77.4% accuracy</b> on 885 test students. Top dropout predictors: <b style="color:#f0f0f0;">2nd Sem Approved Subjects</b>, <b style="color:#f0f0f0;">Tuition Fees</b>, and <b style="color:#f0f0f0;">1st Sem Grade</b>.</div>
     </div>
   </div>
+
 
 </section>
 
@@ -838,16 +559,18 @@
   <div class="exp-card">
     <div class="exp-header">
       <div>
-        <div class="exp-title">Associate Software Engineer — Python Trainer</div>
+        <div class="exp-title">Associate Software Engineer — Python & DA Trainer</div>
         <div class="exp-company">Test Yantra · Bengaluru, India</div>
       </div>
       <span class="exp-date">08/2025 – 03/2026</span>
     </div>
     <ul class="exp-points">
-      <li>Delivered comprehensive Python training covering core and advanced concepts including OOP, file handling, and exception handling.</li>
-      <li>Developed training materials, exercises, and assessments tailored to diverse learner groups.</li>
-      <li>Mentored trainees through real-time coding challenges, strengthening debugging and problem-solving skills.</li>
-      <li>Collaborated with curriculum team to align course content with industry trends.</li>
+      <li>Implemented ML algorithms including Linear Regression, Decision Trees, Random Forest, SVC, and XGBoost for classification and regression tasks.</li>
+      <li>Developed Python-based scripts and utilities applying Core Python, OOP, File Handling, Exception Handling, Pandas, and NumPy concepts.</li>
+      <li>Executed end-to-end data preprocessing pipelines including missing value treatment, categorical encoding, feature scaling, and train-test splitting.</li>
+      <li>Developed Machine Learning models using Scikit-learn and XGBoost, including model training, hyperparameter tuning, and performance evaluation.</li>
+      <li>Explored Generative AI fundamentals including prompt engineering techniques and LLM integration in software workflows.</li>
+      <li>Applied transformer architecture concepts, tokenization methods, and evaluated GPT-based and other LLM outputs for project use cases.</li>
     </ul>
   </div>
 </section>
@@ -860,9 +583,7 @@
       <span class="research-badge">IEEE Xplore · Published</span>
       <h3>Sleep Disorder Classification using Ensemble Machine Learning Models</h3>
       <p>Peer-reviewed research applying Stacking and Voting Classifiers (Random Forest, SVC, XGBoost) on real-world health data — achieving 92% accuracy.</p>
-      <a href="https://ieeexplore.ieee.org/document/10864175" target="_blank" class="research-link">
-        View on IEEE Xplore →
-      </a>
+      <a href="https://ieeexplore.ieee.org/document/10864175" target="_blank" class="research-link">View on IEEE Xplore →</a>
     </div>
     <div class="research-stat-big">
       <div class="big-num">92%</div>
@@ -875,13 +596,13 @@
   <div class="contact-inner">
     <div class="section-label" style="justify-content:center"><span>Let's connect</span></div>
     <h2 class="section-title">Get In Touch</h2>
-    <p>I'm actively looking for Python Developer and Data Analyst roles at startups. Feel free to reach out!</p>
+    <p>I'm actively looking for Python Developer and Data Analyst roles. Feel free to reach out!</p>
     <div class="contact-links">
-      <a href="/cdn-cgi/l/email-protection#e58d848b8080839790958489848290818ca58288848c89cb868a88" class="contact-item">✉️ <span class="__cf_email__" data-cfemail="f49c959a9191928681849598959381909db49399959d98da979b99">[email&#160;protected]</span></a>
+      <a href="/cdn-cgi/l/email-protection#c4aca5aaa1a1a2b6b1b4a5a8a5a3b1a0ad84a3a9a5ada8eaa7aba9" class="contact-item">✉️ <span class="__cf_email__" data-cfemail="ee868f808b8b889c9b9e8f828f899b8a87ae89838f8782c08d8183">[email&#160;protected]</span></a>
       <a href="tel:+919440934416" class="contact-item">📞 +91 9440934416</a>
       <a href="https://linkedin.com/in/haneef-rupalagudi-573b2b262" target="_blank" class="contact-item">💼 LinkedIn</a>
     </div>
-    <a href="/cdn-cgi/l/email-protection#284049464d4d4e5a5d584944494f5d4c41684f45494144064b4745" class="btn btn-primary" style="font-size:1rem; padding:1rem 2.5rem;">Hire Me →</a>
+    <a href="/cdn-cgi/l/email-protection#2a424b444f4f4c585f5a4b464b4d5f4e436a4d474b434604494547" class="btn btn-primary" style="font-size:1rem; padding:1rem 2.5rem;">Hire Me →</a>
   </div>
 </section>
 
@@ -889,45 +610,7 @@
   <p>Designed & Built by Haneef Rupalagudi · 2026</p>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx + 'px';
-    cursor.style.top = my + 'px';
-  });
-
-  function animateRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.left = rx + 'px';
-    ring.style.top = ry + 'px';
-    requestAnimationFrame(animateRing);
-  }
-  animateRing();
-
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursor.style.transform = 'translate(-50%,-50%) scale(2)';
-      ring.style.transform = 'translate(-50%,-50%) scale(1.5)';
-      ring.style.opacity = '0.8';
-    });
-    el.addEventListener('mouseleave', () => {
-      cursor.style.transform = 'translate(-50%,-50%) scale(1)';
-      ring.style.transform = 'translate(-50%,-50%) scale(1)';
-      ring.style.opacity = '0.5';
-    });
-  });
-
-  // Scroll animations
+<script>
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: 0.1
+      if (entry.isIntersecting) { entry.target.style.opacity = '1'; entry.target.style.transfor
